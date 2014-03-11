@@ -1,0 +1,4 @@
+tenant_id|order_id|date
+INTEGER|INTEGER|INTEGER
+0_C | 0_C | 0_C
+===

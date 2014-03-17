@@ -19,7 +19,7 @@ def scale(multiplier, indir,fields,infile):
 
 indir = "./tmp/"
 
-ifiles = [["vbak_base_project.txt", [1]], ["vbap_base_project.txt", [1]]]
+ifiles = [["vbak_base.txt", [1]], ["vbap_base.txt", [1]]]
 
 if __name__ == "__main__":
     for elem in ifiles:

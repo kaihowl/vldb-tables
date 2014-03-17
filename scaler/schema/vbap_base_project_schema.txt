@@ -1,4 +1,0 @@
-tenant_id|order_id|position_id|item_name|price|total_amount
-INTEGER|INTEGER|INTEGER|STRING|FLOAT|FLOAT
-0_C | 0_C | 0_C | 0_C | 0_C | 0_C
-===

@@ -21,10 +21,10 @@ then
   vbapfields="1-"
 elif [ "$2" = "narrow" ]
 then
-  # project vbap to MANDT, VBELN, MATNR, NETWR, KWMENG
-  vbakfields="1,2,3,48"
   # project vbak to MANDT, VBELN, ERDAT, KUNNR
-  vbapfields="1,2,4,44,49"
+  vbakfields="1,2,3,48"
+  # project vbap to MANDT, VBELN, MATNR, NETWR, KWMENG, ERDAT
+  vbapfields="1,2,4,44,49,78"
 fi
 
 # copy & remove date dashes / copy files

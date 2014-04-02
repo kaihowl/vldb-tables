@@ -10,6 +10,7 @@ from glob import glob
 from copy import copy
 
 CWD = os.path.dirname(__file__)
+HYRISE_BINARY = "./build/hyrise-server_release"
 TABLE_PATH = os.path.join(CWD, '../scaler/output/')
 QUERIES_DIR = os.path.join(CWD, './queries/*')
 PREPARATIONS_DIR = os.path.join(CWD, './preparations/*')
@@ -73,7 +74,7 @@ class Server(object):
     def __init__(self, table_path, log_file=open(os.devnull, 'wb')):
         os.environ["HYRISE_DB_PATH"] = TABLE_PATH
         os.environ["LD_LIBRARY_PATH"] = "./build"
-        self.p = subprocess.Popen(["./build/hyrise-server_release"], stdout=log_file, stderr=subprocess.STDOUT)
+        self.p = subprocess.Popen([HYRISE_BINARY], stdout=log_file, stderr=subprocess.STDOUT)
         time.sleep(3)
         self.port = int(open("hyrise_server.port").readlines()[0])
         assert(self.port != 0)

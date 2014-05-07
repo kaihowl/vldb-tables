@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # test if we have an argument
 if [ $# != 2 ]
 then

@@ -25,9 +25,11 @@ if [ -d output-range ]; then
 fi
 
 ./scale.sh 1 narrow
-unary_vbap_size=$(wc -l < output/vbap.tbl)
-unary_vbak_size=$(wc -l < output/vbak.tbl)
-scale_factor=$(echo "($1 - 4) / $unary_vbap_size + 1" | bc)
+
+# The header has 4 lines
+unary_vbap_size=$(($(wc -l < output/vbap.tbl) - 4))
+unary_vbak_size=$(($(wc -l < output/vbak.tbl) - 4))
+scale_factor=$(echo "($1) / $unary_vbap_size + 1" | bc)
 
 echo The scale factor for size $1 is $scale_factor
 
@@ -41,14 +43,14 @@ mkdir output-range
 
 for size in "$@"; do
   printf "Outputting tables for size $size... vbap "
-  head -n $size output/vbap.tbl > output-range/vbap_$size\.tbl
+  head -n $(($size + 4)) output/vbap.tbl > output-range/vbap_$size\.tbl
 
   vbak_vbap_ratio=$(echo "scale=5; $unary_vbak_size / $unary_vbap_size" | bc)
   # Division by zero and default scale=0 rounds down
   vbak_size=$(echo "$vbak_vbap_ratio * $size / 1" | bc)
 
   printf "vbak "
-  head -n $vbak_size output/vbak.tbl > output-range/vbak_$size\.tbl
+  head -n $(($vbak_size + 4)) output/vbak.tbl > output-range/vbak_$size\.tbl
 
   echo "--> done!"
 done;

@@ -21,7 +21,6 @@ TABLE_PATH = sys.argv[1]
 
 QUERIES_DIR = os.path.join(CWD, './queries/*')
 PREPARATIONS_DIR = os.path.join(CWD, './preparations/*')
-LOG_FILE = open(os.path.join(CWD, 'run.log'), 'w')
 FILE_FILTER = ".*\.tbl"
 
 class User(threading.Thread):
@@ -59,22 +58,13 @@ class User(threading.Thread):
             "end": end,
             "duration": end - start
         }
-            
         return result
 
     def run(self):
         while(self._runs > 0):
             print "Running user %s with run %i" % (self._user_name, self._runs)
             for filename, content in self._queries:
-                with open("%s_%s_%i.json" % (self.output_dir(), filename, self._runs), "wb") as f: 
-                    f.write(
-                        json.dumps(
-                            self.query_with_time(content),
-                            sort_keys=True,
-                            indent=4,
-                            separators=(',', ': ')
-                        )
-                    )
+                self.query_with_time(content)
             self._runs -= 1
 
 class Server(object):
@@ -115,20 +105,20 @@ def execute_preparations(directory, server):
     user.start()
     user.join()
 
-def set_tables(table_file, queries):    
+def set_tables(table_file, queries):
     pattern = re.compile("([\w]+)\.tbl")
     m = pattern.match(table_file)
     table_name = m.group(1)
 
-    def replace_tables(query): 
+    def replace_tables(query):
         replaced = query[1].replace("{{table_name}}", table_name)
         replaced = replaced.replace("{{table_file}}", table_file)
         return (query[0], replaced)
 
     return map(replace_tables, queries)
-    
+
 def main():
-    server = Server(TABLE_PATH, LOG_FILE)
+    server = Server(TABLE_PATH)
     execute_preparations(PREPARATIONS_DIR, server)
 
     for filename in glob(TABLE_PATH+"/*.tbl"):

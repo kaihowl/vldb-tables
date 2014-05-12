@@ -10,8 +10,15 @@ from glob import glob
 from copy import copy
 
 CWD = os.path.dirname(__file__)
-HYRISE_BINARY = "./build/hyrise-server_release"
-TABLE_PATH = os.path.join(CWD, '../scaler/output/')
+if not os.environ.has_key("HYRISE_BIN"):
+    sys.exit("Please specify HYRISE_BIN in environment")
+HYRISE_BINARY = os.environ["HYRISE_BIN"]
+
+if len(sys.argv) != 2:
+    sys.exit("Please supply dir containing to-be-dumped tbl files")
+
+TABLE_PATH = sys.argv[1]
+
 QUERIES_DIR = os.path.join(CWD, './queries/*')
 PREPARATIONS_DIR = os.path.join(CWD, './preparations/*')
 LOG_FILE = open(os.path.join(CWD, 'run.log'), 'w')

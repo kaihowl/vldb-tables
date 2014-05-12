@@ -6,6 +6,8 @@
 # Call like ./create-range.sh <vbap_size_1> <vbap_size_2> ...  # <vbap_size_n>
 # vbap_size_1 has to be the biggest size
 
+set -e
+
 function usage() {
   echo You have to supply a range of vbap sizes!
   echo ./create-range.sh \<vbap_size_1\> \<vbap_size_2\> \.\.\.  \# \<vbap_size_\>
@@ -14,6 +16,11 @@ function usage() {
 
 if [ "$#" -lt 1 ]; then
   usage
+  exit 1
+fi
+
+if [ -d output-range ]; then
+  echo Delete the output-range/ dir first to confirm regeneration!
   exit 1
 fi
 
@@ -30,7 +37,6 @@ printf "Beginning to scale vbap and vbak... "
 
 echo "Done!"
 
-rm -rf output-range
 mkdir output-range
 
 for size in "$@"; do

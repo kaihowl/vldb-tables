@@ -1,1 +1,4 @@
 *.swp
+hyrise_server.pid
+hyrise_server.port
+output_*/
